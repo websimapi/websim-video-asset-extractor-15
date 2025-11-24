@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Asset Extractor</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="main-container">
+        <header>
+            <h1>Video Asset Extractor</h1>
+            <p>Upload a video grid (like one from Sora), and this tool will split it into cells and make the black background transparent.</p>
+        </header>
+
+        <div class="controls">
+            <div class="control-group upload-group">
+                <label for="video-upload" class="button">1. Upload Video</label>
+                <input type="file" id="video-upload" accept="video/*" hidden>
+                <span id="file-name">No file chosen</span>
+            </div>
+            
+            <button id="toggle-settings-button">Settings</button>
+
+            <div id="settings-panel" class="settings-panel" style="display: none;">
+                <div class="control-group settings">
+                    <div>
+                        <label for="settings-rows">Grid Rows:</label>
+                        <div class="number-input-container">
+                            <button class="btn-decrement" data-target="settings-rows">-</button>
+                            <input type="number" id="settings-rows" value="8" min="1">
+                            <button class="btn-increment" data-target="settings-rows">+</button>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="settings-cols">Grid Columns:</label>
+                        <div class="number-input-container">
+                            <button class="btn-decrement" data-target="settings-cols">-</button>
+                            <input type="number" id="settings-cols" value="8" min="1">
+                            <button class="btn-increment" data-target="settings-cols">+</button>
+                        </div>
+                    </div>
+                    <div class="padding-control-group">
+                        <span>Padding (px)</span>
+                        <div class="padding-inputs">
+                            <input type="number" id="padding-top" value="0" min="0" title="Top Padding" placeholder="T">
+                            <input type="number" id="padding-right" value="0" min="0" title="Right Padding" placeholder="R">
+                            <input type="number" id="padding-bottom" value="0" min="0" title="Bottom Padding" placeholder="B">
+                            <input type="number" id="padding-left" value="0" min="0" title="Left Padding" placeholder="L">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="threshold">Black Threshold: <span id="threshold-value">20</span></label>
+                        <input type="range" id="threshold" min="0" max="255" value="20">
+                    </div>
+                    <div>
+                        <label for="gif-fps">GIF FPS:</label>
+                        <input type="number" id="gif-fps" value="30" min="1" max="60">
+                    </div>
+                    <div>
+                        <label for="gif-quality" title="Lower value means better quality and larger file size.">GIF Quality (1-30):</label>
+                        <input type="number" id="gif-quality" value="10" min="1" max="30">
+                    </div>
+                    <div>
+                        <label for="gif-dither">Dithering:</label>
+                        <select id="gif-dither">
+                            <option value="false" selected>None</option>
+                            <option value="FloydSteinberg">Floyd-Steinberg</option>
+                            <option value="FalseFloydSteinberg">False Floyd-Steinberg</option>
+                            <option value="Stucki">Stucki</option>
+                            <option value="Atkinson">Atkinson</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="gif-speed">Playback Speed:</label>
+                         <div class="number-input-container">
+                            <button class="btn-decrement" data-target="gif-speed">-</button>
+                            <input type="number" id="gif-speed" value="1" min="0.1" max="5" step="0.1">
+                            <button class="btn-increment" data-target="gif-speed">+</button>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="gif-duration">Duration (s):</label>
+                        <input type="number" id="gif-duration" value="2" min="1" max="30">
+                    </div>
+                    <div class="twitch-toggle-container">
+                        <label class="switch">
+                            <input type="checkbox" id="twitch-toggle">
+                            <span class="slider round"></span>
+                        </label>
+                        <label for="twitch-toggle">Prepare for Twitch</label>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="main-buttons">
+                <button id="process-button">2. Process Video</button>
+                <button id="generate-gifs-button" style="display: none;">3. Generate GIFs</button>
+            </div>
+
+            <div id="export-options" class="control-group settings export-controls" style="display: none;">
+                <button id="select-all-button">Select All</button>
+                <button id="deselect-all-button">Deselect All</button>
+                <div class="generation-mode">
+                    <label>Mode:</label>
+                    <div>
+                        <input type="radio" id="mode-parallel" name="gen-mode" value="parallel" checked>
+                        <label for="mode-parallel">Parallel</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="mode-sequential" name="gen-mode" value="sequential">
+                        <label for="mode-sequential">Sequential</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-area">
+            <div class="video-container">
+                <div class="video-header">
+                    <h2>Source Video</h2>
+                    <div class="grid-controls">
+                        <div>
+                            <label for="video-rows">Rows:</label>
+                            <div class="number-input-container">
+                                <button class="btn-decrement" data-target="video-rows">-</button>
+                                <input type="number" id="video-rows" value="8" min="1">
+                                <button class="btn-increment" data-target="video-rows">+</button>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="video-cols">Cols:</label>
+                            <div class="number-input-container">
+                                <button class="btn-decrement" data-target="video-cols">-</button>
+                                <input type="number" id="video-cols" value="8" min="1">
+                                <button class="btn-increment" data-target="video-cols">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-wrapper">
+                    <video id="video-preview" controls muted loop playsinline src="placeholder.png"></video>
+                    <canvas id="grid-overlay"></canvas>
+                </div>
+            </div>
+    
+            <div class="grid-wrapper">
+                <h2>Extracted Assets</h2>
+                <div id="grid-container" class="grid-container">
+                    <p class="placeholder-text">Your extracted assets will appear here after processing.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+    <script type="importmap">
+    {
+      "imports": {
+        "app/state": "./app/state.js",
+        "app/ui": "./app/ui.js",
+        "app/grid": "./app/grid.js",
+        "app/preview": "./app/preview.js",
+        "app/gif": "./app/gif.js"
+      }
+    }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.js"></script>
+    <script type="module" src="main.js"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"4c6229722a6346bc8eb5cb0e5eae5d41","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>

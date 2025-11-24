@@ -1,0 +1,525 @@
+:root {
+    --bg-color: #1a1a1a;
+    --text-color: #f0f0f0;
+    --primary-color: #007bff;
+    --primary-hover: #0056b3;
+    --border-color: #444;
+    --container-bg: #2c2c2c;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+
+.main-container {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+header {
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px;
+}
+
+header h1 {
+    margin: 0;
+    color: var(--primary-color);
+}
+
+.controls {
+    background-color: var(--container-bg);
+    padding: 20px;
+    border-radius: 8px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-areas:
+        "upload settings-toggle actions"
+        "settings settings settings"
+        "export export export";
+    align-items: center;
+    gap: 15px;
+}
+
+.upload-group {
+    grid-area: upload;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+#toggle-settings-button {
+    grid-area: settings-toggle;
+}
+
+.settings-panel {
+    grid-area: settings;
+    background-color: rgba(0,0,0,0.2);
+    padding: 15px;
+    border-radius: 6px;
+    margin-top: 10px;
+}
+
+.main-buttons {
+    grid-area: actions;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.main-buttons button {
+    width: 100%;
+    max-width: 200px;
+}
+
+.export-controls {
+    grid-area: export;
+    justify-content: center !important; /* Override .control-group */
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.control-group.settings {
+    flex-grow: 1;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+.control-group label {
+    font-weight: bold;
+}
+
+input[type="number"],
+select {
+    width: 60px;
+    padding: 5px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+#gif-dither {
+    width: 150px;
+}
+
+.number-input-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.number-input-container button {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    font-size: 1.1em;
+    line-height: 28px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.number-input-container input[type="number"] {
+    width: 50px;
+    text-align: center;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-size: 1em;
+    -moz-appearance: textfield; /* Firefox */
+}
+.number-input-container input[type="number"]::-webkit-outer-spin-button,
+.number-input-container input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.padding-control-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.padding-control-group span {
+    font-weight: bold;
+}
+
+.padding-inputs {
+    display: flex;
+    gap: 5px;
+}
+
+.padding-inputs input[type="number"] {
+    width: 40px;
+    text-align: center;
+}
+
+input[type="range"] {
+    width: 120px;
+}
+
+.button, button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.2s;
+}
+
+#export-options label {
+    font-weight: normal;
+}
+
+#export-options input[type="radio"] {
+    margin-left: 10px;
+}
+
+.button:hover, button:hover {
+    background-color: var(--primary-hover);
+}
+
+#file-name {
+    font-style: italic;
+    color: #ccc;
+    font-size: 0.9em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+}
+
+.content-area {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.video-container, .grid-wrapper {
+    background-color: var(--container-bg);
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+.grid-wrapper {
+    /* For cases where grid has many rows, allow scrolling */
+    max-height: 80vh;
+}
+
+.video-container h2, .grid-wrapper h2 {
+    margin-top: 0;
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.video-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.video-container .video-header h2 {
+    margin: 0;
+    padding: 0;
+    border: none;
+    text-align: left;
+}
+
+.grid-controls {
+    display: flex;
+    gap: 15px;
+}
+
+.grid-controls > div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.grid-controls label {
+    font-weight: bold;
+}
+
+.grid-controls .number-input-container input[type="number"] {
+    width: 50px;
+}
+
+.video-wrapper {
+    position: relative;
+    width: 100%;
+    /* Maintain aspect ratio of the container before video loads */
+    aspect-ratio: 16 / 9;
+    background-color: #000;
+    border-radius: 4px;
+    overflow: hidden; /* Ensures canvas corners are also rounded */
+    max-width: 100%; /* Prevent overflow on small screens */
+}
+
+#grid-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Initially, let clicks go to the video */
+    z-index: 10;
+}
+
+#video-preview {
+    width: 100%;
+    height: 100%;
+    display: block; /* Removes bottom space under video element */
+    border-radius: 4px;
+}
+
+.grid-container {
+    display: grid;
+    gap: 5px;
+    border: 1px solid var(--border-color);
+    padding: 5px;
+}
+
+.cell-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.cell-container .cell-checkbox {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    z-index: 20;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.cell-container .status {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    font-size: 0.75em;
+    text-align: center;
+    padding: 2px 0;
+    pointer-events: none;
+}
+
+.grid-container canvas, .grid-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.grid-container a {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.placeholder-text {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: #888;
+    align-self: center;
+}
+
+.twitch-toggle-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+}
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 28px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #555;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: var(--primary-color);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px var(--primary-color);
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(22px);
+  -ms-transform: translateX(22px);
+  transform: translateX(22px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+
+/* Mobile Styles */
+@media (max-width: 900px) {
+    .controls {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "upload"
+            "settings-toggle"
+            "settings"
+            "actions"
+            "export";
+        justify-items: stretch;
+    }
+
+    .upload-group, .main-buttons {
+        align-items: stretch;
+    }
+
+    .main-buttons button {
+       max-width: none;
+    }
+
+    .control-group.settings {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+
+    .control-group.settings > div,
+    .padding-control-group {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    
+    .padding-control-group {
+       flex-direction: column;
+       gap: 10px;
+       align-items: center;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .video-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .video-container .video-header h2 {
+        text-align: center;
+    }
+
+    .grid-controls {
+        justify-content: space-around;
+    }
+
+    .main-container {
+        gap: 15px;
+    }
+
+    .controls {
+        padding: 15px;
+    }
+
+    .content-area {
+        grid-template-columns: 1fr;
+    }
+    
+    .grid-wrapper {
+        /* On small screens, having a square preview grid can take up a lot of space.
+           Let's make it more flexible. */
+        min-height: 300px;
+    }
+
+    .grid-container {
+        aspect-ratio: unset;
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)) !important;
+    }
+    
+    .generation-mode {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    .export-controls {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+}
